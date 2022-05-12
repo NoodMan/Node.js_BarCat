@@ -1,7 +1,9 @@
 # Node.js_BarCat
 <br>
 
-<h1>Pour installer node :</h1>
+<h1>Pour configurer le projet BarCat</h1>
+
+<h2>Pour installer node :</h2>
 
 <pre>npm init
 renseigner la description et le point d'entrer (server.js) 
@@ -9,12 +11,12 @@ npm install express
 créé un nouveau fichier server.js 
 pour faire tourner le serveur = node server.js ou npm run start <pre>
 
-<h1>Pour installer le font : </h1>
+<h2>Pour installer le font : </h2>
 
 npm init vue@latest
 Choisir un nom et Yes pour tout
 
-<h1>Pour le serveur node.js</h1>
+<h2>Pour le serveur node.js : </h2>
 
 npm install cors
 npm install body-parser
