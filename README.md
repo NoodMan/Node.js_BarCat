@@ -1,5 +1,3 @@
-# Node.js_BarCat
-<br>
 
 <h1>Pour configurer le projet BarCat</h1>
 
