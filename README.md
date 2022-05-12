@@ -1,5 +1,7 @@
 
-<h1>Pour configurer le projet BarCat</h1>
+<h1>Pour crée le projet BarCat</h1>
+
+Crée un nouveau dossier dans le finder, puis dans le terminal aller dans le dossier crée
 
 <h2>Pour installer node :</h2>
 
