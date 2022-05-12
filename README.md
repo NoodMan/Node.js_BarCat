@@ -26,5 +26,5 @@ npm install vue bootstrap bootstrap-vue
 npm i pinia-plugin-persistedstate
 <pre>
 
-(ne pas oublier le / dans le terninal à la fin de cd Projet_Objectif_Qualification car c'est un dossier)
+<em>ne pas oublier le / dans le terninal à la fin de cd Projet_Objectif_Qualification car c'est un dossier</em>.
 
