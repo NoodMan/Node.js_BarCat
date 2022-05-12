@@ -1,9 +1,8 @@
 # Node.js_BarCat
-
-
-(ne pas oublier le / dans le terninal à la fin de cd Projet_Objectif_Qualification car c'est un dossier)
+<br>
 
 <h1>Pour installer node :</h1>
+
 <pre>npm init
 renseigner la description et le point d'entrer (server.js) 
 npm install express
@@ -11,6 +10,7 @@ créé un nouveau fichier server.js
 pour faire tourner le serveur = node server.js ou npm run start <pre>
 
 <h1>Pour installer le font : </h1>
+
 npm init vue@latest
 Choisir un nom et Yes pour tout
 
@@ -24,5 +24,5 @@ npm install vue bootstrap bootstrap-vue
 npm i pinia-plugin-persistedstate
 
 
-
+(ne pas oublier le / dans le terninal à la fin de cd Projet_Objectif_Qualification car c'est un dossier)
 
