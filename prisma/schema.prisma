@@ -11,15 +11,57 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String
-  password  String   @db.VarChar(255)
-  role      Role     @default(USER)
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  lastname       String    @db.VarChar(100)
+  firstname      String    @db.VarChar(100)
+  address        String    @db.VarChar(200)
+  zip_code       String    @db.VarChar(5)
+  city           String    @db.VarChar(100)
+  email          String    @unique @db.VarChar(255)
+  tel            String    @db.VarChar(10)
+  mobile         String    @db.VarChar(10)
+  day_of_birth   Int
+  month_of_birth Int
+  year_of_birth  Int
+  password       String    @db.VarChar(255)
+  role           Role      @default(USER)
+  Booking        Booking[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Booking {
+  id               Int         @id @default(autoincrement())
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int
+  date_of_booking  DateTime
+  number_of_people Int
+  table_resa       Table_resa? @relation(fields: [table_resaID], references: [id], onDelete: Cascade)
+  table_resaID     Int?
+
+  // ? change le format de la date et l'heure pour les rendre unique
+}
+
+model Table_resa {
+  id                Int                @id @default(autoincrement())
+  table_nbr         Int                @unique @db.Int()
+  nbr_place         Int
+  status_table_resa Status_table_resa? @relation(fields: [status], references: [id], onDelete: Cascade)
+  status            Int?               
+  Booking           Booking[]
+}
+
+model Status_booking {
+  id    Int    @id @default(autoincrement())
+  label String @unique @db.VarChar(255)
+}
+
+model Status_table_resa {
+  id         Int          @id @default(autoincrement())
+  label      String       @unique @db.VarChar(255)
+  Table_resa Table_resa[]
 }
