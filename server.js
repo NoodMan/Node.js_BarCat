@@ -36,12 +36,12 @@ const prisma = new PrismaClient()
 
 
 app.post("/sign_up", async (req, res) => {
-    const lastname = req.body.lastname
-    const firstname = req.body.firstname
-    const address = req.body.address
+    const lastname = striptags(htmlspecialchars(req.body.lastname))
+    const firstname = striptags(htmlspecialchars(req.body.firstname))
+    const address = striptags(htmlspecialchars(req.body.address))
     const zip_code = req.body.zip_code
-    const city = req.body.city
-    const email = req.body.email
+    const city = striptags(htmlspecialchars(req.body.city))
+    const email = striptags(htmlspecialchars(req.body.email))
     const tel = req.body.tel
     const mobile = req.body.mobile
     const day_of_birth = req.body.day_of_birth
@@ -70,10 +70,6 @@ app.post("/sign_up", async (req, res) => {
                 }
             })
 
-            // data.accessToken = await jwt.signAccessToken(user);
-            //https://blog.logrocket.com/crafting-authentication-schemes-with-prisma-in-express/
-            //  https://dev.to/mihaiandrei97/jwt-authentication-using-prisma-and-express-37nk
-
             var message = {
                 "lastname": lastname,
                 "firstname": firstname,
@@ -89,7 +85,7 @@ app.post("/sign_up", async (req, res) => {
                 "password": hash,
                 message: "Merci pour votre inscription 😸"
             }
-            
+
             if (lastname && firstname && address && zip_code && city && email && tel && mobile && day_of_birth && month_of_birth && year_of_birth && password) {
                 res.status(200).send(message);
             }
@@ -104,43 +100,40 @@ app.post("/sign_up", async (req, res) => {
 })
 
 
-app.post("/login", async (req, res) => { 
+app.post("/login", async (req, res) => {
     try {
-    
 
-    const email = striptags(req?.body?.email)
-    const password = striptags(req?.body?.password)
 
-   
-    const user = await prisma.user.findUnique({
-        where: {
-            email: email,
-        },
-    })
-    // const accessToken = await jwt.signAccessToken(user)
-    //console.log('-->⛔️ Je suis ici 🎉 <--', user);
-    const match = await bcrypt.compare(password, user?.password);
-    //user.password = mdp hacher
-    // pour supprimer le mot de passe
-    delete user.password
-    
+        const email = striptags(req?.body?.email)
+        const password = striptags(req?.body?.password)
 
-    var token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-    var refresh_token = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '24h' });
+        const user = await prisma.user.findUnique({
+            where: {
+                email: email,
+            },
+        })
 
-    var data_n_tokens = { user, token, refresh_token }
-   
-    if (match == true) {
-        res.status(200).send(data_n_tokens) //Liste_des_codes_HTTP 
-       
+        const match = await bcrypt.compare(password, user?.password);
+
+        delete user.password
+
+        var token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+
+        var refresh_token = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '24h' });
+
+        var data_n_tokens = { user, token, refresh_token }
+
+        if (match == true) {
+            res.status(200).send(data_n_tokens) //Liste_des_codes_HTTP 
+
+        }
+        if (match == false) {// ou if (!match) 
+            res.status(401).send("PAS ok ") //Liste_des_codes_HTTP 
+        }
+    } catch (error) {
+        //console.log('-->⛔️ Je suis ici 🎉 <--', error);
     }
-    if (match == false) {// ou if (!match) 
-        res.status(401).send("PAS ok ") //Liste_des_codes_HTTP 
-    }
-} catch (error) {
-    //console.log('-->⛔️ Je suis ici 🎉 <--', error);
-}
 
 })
 
@@ -178,7 +171,6 @@ app.post("/booking", async (req, res) => {
                 id: parseInt(user_id),
             }
         }
-
     }
     //Si l'ADMIN envoie table_resa dans la requete
     if (table_resa) {
@@ -222,6 +214,7 @@ app.post("/booking", async (req, res) => {
         res.status(200).send(message);
         return;
     } catch (error) {
+        console.log('-->⛔️ Je suis ici 🎉 <--', error);
         console.log(error)
         res.status(400).send(
             JSON.stringify({ message: "un probléme est survenu lors de votre réservation 🙀😿" })
@@ -231,8 +224,8 @@ app.post("/booking", async (req, res) => {
 
 app.post("/table", async (req, res) => {
     try {
-        var place_number = parseInt(striptags(String(req.body.place_number)));
-        var table_number = parseInt(striptags(String(req.body.number_of_people)));
+        var place_count = parseInt(striptags(String(req.body.place_count)));
+        var table_number = parseInt(striptags(String(req.body.table_number)));
         // var status = parseInt(striptags(String(req.body.status)));
         var table = {};
         var message;
@@ -248,8 +241,8 @@ app.post("/table", async (req, res) => {
         table = await prisma.table_resa.create({
             data: {
                 "table_nbr": table_number,
-                "nbr_place": place_number,
-                // "status": status
+                "nbr_place": place_count,
+
             }
         })
 

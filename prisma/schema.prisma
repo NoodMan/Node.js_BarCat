@@ -33,17 +33,15 @@ enum Role {
   USER
   ADMIN
 }
-
+// création structure booking dans bdd
 model Booking {
   id               Int         @id @default(autoincrement())
   user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           Int
-  date_of_booking  DateTime
+  date_of_booking  DateTime    @unique @db.DateTime()
   number_of_people Int
   table_resa       Table_resa? @relation(fields: [table_resaID], references: [id], onDelete: Cascade)
   table_resaID     Int?
-
-  // ? change le format de la date et l'heure pour les rendre unique
 }
 
 model Table_resa {
@@ -51,7 +49,7 @@ model Table_resa {
   table_nbr         Int                @unique @db.Int()
   nbr_place         Int
   status_table_resa Status_table_resa? @relation(fields: [status], references: [id], onDelete: Cascade)
-  status            Int?               
+  status            Int?               @default(1)
   Booking           Booking[]
 }
 
