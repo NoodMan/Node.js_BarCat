@@ -115,7 +115,6 @@ app.post("/login", async (req, res) => {
         })
 
         const match = await bcrypt.compare(password, user?.password);
-
         delete user.password
 
         var token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
