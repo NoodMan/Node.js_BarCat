@@ -1,7 +1,5 @@
 const express = require('express'); // framework 
 const port = "666"
-
-
 const cors = require("cors") // pour les erreurs
 const fs = require('fs') // pour interagir avec les systeme de la machine
 var app = express() // framework 
@@ -17,17 +15,11 @@ app.use(bodyParser.json())
 const htmlspecialchars = require("htmlspecialchars");
 const striptags = require("striptags");
 
-
-// require('dotenv').config();
-
 const jwt = require("jsonwebtoken");
 
 app.get("/", (req, res) => {
     res.send("J'ai réussi, je suis sur ma page d'accueil !!! 🎉 😺")
 })
-
-
-
 
 /////////////////// utilise ma BD my sql/////////////////
 const bcrypt = require('bcrypt'); //pour hasher le mdp
@@ -90,7 +82,7 @@ app.post("/sign_up", async (req, res) => {
                 res.status(200).send(message);
             }
         } catch (error) {
-            console.log('toto', error);
+            // console.log('-->⛔️ Je suis ici 🎉 <--', error);
             res.status(400).send(
                 JSON.stringify({ message: "un probléme est survenu lors de votre inscription 🙀" })
             )
@@ -131,7 +123,6 @@ app.post("/login", async (req, res) => {
             res.status(401).send("PAS ok ") //Liste_des_codes_HTTP 
         }
     } catch (error) {
-        //console.log('-->⛔️ Je suis ici 🎉 <--', error);
     }
 
 })
@@ -150,7 +141,6 @@ app.get("/booking", async (req, res) => {
         })
         res.status(200).send(getBooking)
     } catch (error) {
-        console.log('-->⛔️ Je suis ici 🎉 <--', error);
     }
 })
 
